@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stroom-app
+  namespace: stroom-app
+  labels:
+    app: stroom-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stroom-app
+  template:
+    metadata:
+      labels:
+        app: stroom-app
+    spec:
+      imagePullSecrets:
+        - name: dockerhub
+      containers:
+        - name: stroom-app
+          image: maartenkamoen/private:stroom-app-latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 50m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 2
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 20

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stroom</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<main class="app">
+
+  <!-- HOME SCHERM -->
+  <section id="screen-home" class="screen">
+    <h1>⚡ Stroom</h1>
+    <p class="subtitle">Rekenen aan elektriciteit · vwo eindexamen</p>
+
+    <div class="type-grid">
+      <button class="type-btn" data-type="ohm">Ω<br>Wet van Ohm</button>
+      <button class="type-btn" data-type="vermogen">💡<br>Vermogen</button>
+      <button class="type-btn" data-type="energie">🔋<br>Energie &amp; kWh</button>
+      <button class="type-btn" data-type="lading">⚛️<br>Lading</button>
+      <button class="type-btn" data-type="serie">➡️<br>Serieschakeling</button>
+      <button class="type-btn" data-type="parallel">🔀<br>Parallelschakeling</button>
+      <button class="type-btn" data-type="gemengd">🧩<br>Gemengde schakeling</button>
+      <button class="type-btn" data-type="geleidbaarheid">🔁<br>Geleidbaarheid</button>
+      <button class="type-btn" data-type="soortelijk">🧵<br>Soortelijke weerstand</button>
+      <button class="type-btn" data-type="rendement">⚙️<br>Rendement</button>
+      <button class="type-btn" data-type="transformator">🔌<br>Transformator</button>
+      <button class="type-btn" data-type="eenheden">📏<br>Eenheden omrekenen</button>
+      <button class="type-btn" data-type="formules">🧠<br>Formules &amp; eenheden</button>
+      <button class="type-btn type-btn-wide" data-type="mix">🎲<br>Mix (examentraining)</button>
+    </div>
+
+    <div class="option-row">
+      <span class="option-label">Niveau</span>
+      <div class="level-buttons">
+        <button class="level-btn" data-level="makkelijk">Makkelijk</button>
+        <button class="level-btn" data-level="gemiddeld">Gemiddeld</button>
+        <button class="level-btn" data-level="moeilijk">Moeilijk</button>
+      </div>
+    </div>
+
+    <button id="start-btn" class="primary-btn" disabled>Start!</button>
+    <button id="formules-btn" class="secondary-btn">📖 Formulekaart</button>
+
+    <p id="best-score" class="best-score"></p>
+  </section>
+
+  <!-- OEFEN SCHERM -->
+  <section id="screen-exercise" class="screen hidden">
+    <button id="quit-btn" type="button" class="quit-btn">← Terug naar start</button>
+
+    <div class="exercise-header">
+      <span id="progress-label">Vraag 1 van 10</span>
+      <span id="score-label">Score: 0</span>
+    </div>
+
+    <p id="topic-label" class="topic-label"></p>
+
+    <div class="question-box">
+      <p id="question-context" class="question-context"></p>
+      <div id="question-given" class="question-given"></div>
+      <p id="question-asked" class="question-asked"></p>
+    </div>
+
+    <div id="diagram" class="diagram hidden"></div>
+
+    <div id="choices" class="choices hidden"></div>
+
+    <form id="answer-form" autocomplete="off">
+      <input type="text" id="answer-input" placeholder="jouw antwoord" required>
+      <span id="unit-label" class="unit-label"></span>
+      <button type="submit" class="primary-btn">Controleer</button>
+    </form>
+    <p id="input-hint" class="input-hint">Komma of punt mag. Machten van 10 als 1,6e-19 of 1,6·10^-19.</p>
+
+    <p id="feedback" class="feedback"></p>
+
+    <div id="uitwerking" class="uitwerking hidden">
+      <h3>Uitwerking</h3>
+      <ol id="uitwerking-steps"></ol>
+    </div>
+
+    <button id="next-btn" type="button" class="primary-btn hidden">Volgende vraag</button>
+  </section>
+
+  <!-- FORMULEKAART SCHERM -->
+  <section id="screen-formules" class="screen hidden">
+    <button id="formules-quit-btn" type="button" class="quit-btn">← Terug naar start</button>
+    <h2>📖 Formulekaart</h2>
+
+    <div class="formules">
+      <h3>Grootheden en eenheden</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Grootheid</th><th>Symbool</th><th>Eenheid</th></tr></thead>
+          <tbody>
+            <tr><td>stroomsterkte</td><td>I</td><td>ampère (A)</td></tr>
+            <tr><td>spanning</td><td>U</td><td>volt (V)</td></tr>
+            <tr><td>weerstand</td><td>R</td><td>ohm (Ω)</td></tr>
+            <tr><td>geleidbaarheid</td><td>G</td><td>siemens (S)</td></tr>
+            <tr><td>vermogen</td><td>P</td><td>watt (W)</td></tr>
+            <tr><td>energie</td><td>E</td><td>joule (J) of kWh</td></tr>
+            <tr><td>lading</td><td>Q</td><td>coulomb (C)</td></tr>
+            <tr><td>tijd</td><td>t</td><td>seconde (s)</td></tr>
+            <tr><td>soortelijke weerstand</td><td>ρ</td><td>Ω·m</td></tr>
+            <tr><td>rendement</td><td>η</td><td>— (of %)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Basis</h3>
+      <ul>
+        <li><b>I = Q / t</b> — stroomsterkte (A), lading (C), tijd (s)</li>
+        <li><b>U = E / Q</b> — spanning (V) is energie per lading</li>
+        <li><b>U = I · R</b> — wet van Ohm</li>
+        <li><b>G = 1 / R = I / U</b> — geleidbaarheid (S)</li>
+        <li><b>R = ρ · ℓ / A</b> — soortelijke weerstand ρ (Ω·m), lengte ℓ (m), doorsnede A (m²)</li>
+        <li><b>A = ¼ π d²</b> — doorsnede van een ronde draad</li>
+        <li>Lading elektron: <b>e = 1,602·10⁻¹⁹ C</b></li>
+      </ul>
+
+      <h3>Vermogen en energie</h3>
+      <ul>
+        <li><b>P = U · I = I² · R = U² / R</b></li>
+        <li><b>E = P · t</b> — in J (W·s) of kWh (kW·h)</li>
+        <li><b>1 kWh = 3,6·10⁶ J</b></li>
+        <li><b>η = P<sub>nuttig</sub> / P<sub>in</sub> = E<sub>nuttig</sub> / E<sub>in</sub></b> (× 100%)</li>
+        <li><b>E<sub>z</sub> = m · g · h</b> met g = 9,81 m/s²</li>
+      </ul>
+
+      <h3>Schakelingen</h3>
+      <ul>
+        <li>Serie: <b>R<sub>v</sub> = R₁ + R₂ + …</b>; I overal gelijk; U<sub>bron</sub> = U₁ + U₂ + …</li>
+        <li>Parallel: <b>1/R<sub>v</sub> = 1/R₁ + 1/R₂ + …</b>; U overal gelijk; I<sub>tot</sub> = I₁ + I₂ + …</li>
+        <li>Parallel: <b>G<sub>v</sub> = G₁ + G₂ + …</b>; serie: 1/G<sub>v</sub> = 1/G₁ + 1/G₂ + …</li>
+        <li>Spanningsdeler: <b>U₁ / U₂ = R₁ / R₂</b></li>
+      </ul>
+
+      <h3>Transformator (ideaal)</h3>
+      <ul>
+        <li><b>U<sub>p</sub> / U<sub>s</sub> = N<sub>p</sub> / N<sub>s</sub></b></li>
+        <li><b>P<sub>p</sub> = P<sub>s</sub></b> → U<sub>p</sub> · I<sub>p</sub> = U<sub>s</sub> · I<sub>s</sub></li>
+      </ul>
+
+      <h3>Voorvoegsels</h3>
+      <ul>
+        <li>M = 10⁶ · k = 10³ · m = 10⁻³ · μ = 10⁻⁶</li>
+        <li>1 mm² = 10⁻⁶ m² · 1 mAh = 3,6 C · 1 Ah = 3600 C</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- RESULTAAT SCHERM -->
+  <section id="screen-result" class="screen hidden">
+    <h2>Klaar! 🎉</h2>
+    <p id="result-text" class="result-text"></p>
+    <div class="result-buttons">
+      <button id="retry-btn" class="primary-btn">Opnieuw</button>
+      <button id="home-btn" class="secondary-btn">Terug naar start</button>
+    </div>
+  </section>
+
+</main>
+
+<script src="js/app.js"></script>
+</body>
+</html>
