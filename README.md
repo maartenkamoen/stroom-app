@@ -1,6 +1,6 @@
 # Stroom-app
 
-Een oefensite voor rekenen aan elektriciteit op vwo-eindexamenniveau (natuurkunde): de formules
+Een oefensite voor rekenen aan elektriciteit (natuurkunde): de formules
 voor stroom, spanning, weerstand, vermogen, energie en lading, en rekenen met hun eenheden en
 voorvoegsels (mA, kΩ, kWh, mm², …).
 
